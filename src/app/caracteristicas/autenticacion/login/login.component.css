@@ -1,0 +1,128 @@
+.contenedor-login {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+}
+
+.tarjeta-login {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.encabezado-login {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.encabezado-login h1 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+.encabezado-login p {
+  margin: 0;
+  color: #7f8c8d;
+}
+
+/* Campos del formulario */
+.campo-formulario {
+  margin-bottom: 1.5rem;
+}
+
+.campo-formulario label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.campo-formulario input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.campo-formulario input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.campo-formulario input.input-error {
+  border-color: #e74c3c;
+}
+
+/* Mensajes de error */
+.mensaje-error {
+  margin-top: 0.5rem;
+}
+
+.mensaje-error small {
+  color: #e74c3c;
+  font-size: 0.875rem;
+}
+
+.alerta-error {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Botón principal */
+.boton-principal {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.boton-principal:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.boton-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Link de registro */
+.link-registro {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.link-registro p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.link-registro a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-registro a:hover {
+  text-decoration: underline;
+}
