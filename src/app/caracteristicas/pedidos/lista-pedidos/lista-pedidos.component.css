@@ -1,0 +1,37 @@
+.contenedor-pedidos {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.encabezado {
+  margin-bottom: 2rem;
+}
+
+.encabezado h1 {
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+}
+
+.encabezado p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.tarjeta-info {
+  background: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.tarjeta-info h3 {
+  color: #f39c12;
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+}
+
+.tarjeta-info p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}

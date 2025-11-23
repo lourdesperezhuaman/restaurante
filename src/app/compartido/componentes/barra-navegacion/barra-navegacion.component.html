@@ -1,0 +1,77 @@
+<nav class="navbar">
+  <div class="navbar-contenedor">
+
+    <div class="navbar-marca">
+      <a routerLink="/" class="logo">
+        🍽️ <span>Restaurante</span>
+      </a>
+    </div>
+
+    <button class="menu-toggle" (click)="toggleMenu()" *ngIf="estaAutenticado()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="navbar-menu" [class.activo]="menuAbierto">
+
+      <ng-container *ngIf="estaAutenticado()">
+        <a 
+          routerLink="/" 
+          routerLinkActive="activo"
+          [routerLinkActiveOptions]="{exact: true}"
+          class="nav-link"
+        >
+          🏠 Inicio
+        </a>
+
+        <a 
+          routerLink="/pedidos" 
+          routerLinkActive="activo"
+          class="nav-link"
+        >
+          📋 Pedidos
+        </a>
+
+        <a 
+          routerLink="/platos" 
+          routerLinkActive="activo"
+          class="nav-link"
+        >
+          🍕 Platos
+        </a>
+
+        <a 
+          *ngIf="esAdministrador()"
+          routerLink="/tablero" 
+          routerLinkActive="activo"
+          class="nav-link"
+        >
+          📊 Tablero
+        </a>
+
+        <div class="usuario-info">
+          <span class="usuario-nombre">
+            👤 {{ usuarioActual()?.nombre }}
+          </span>
+          <span class="usuario-rol" [class.admin]="esAdministrador()">
+            {{ usuarioActual()?.rol }}
+          </span>
+        </div>
+
+        <button class="boton-cerrar-sesion" (click)="cerrarSesion()">
+          🚪 Salir
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="!estaAutenticado()">
+        <a routerLink="/login" class="nav-link">
+          🔑 Iniciar Sesión
+        </a>
+        <a routerLink="/registro" class="nav-link boton-registro">
+          📝 Registrarse
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</nav>
