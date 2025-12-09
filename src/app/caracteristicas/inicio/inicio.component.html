@@ -3,22 +3,40 @@
   <p>{{ descripcion }}</p>
   
   <div class="estadisticas">
-    <div class="stat">
+    <a routerLink="/pedidos" class="stat">
       <h3>📋</h3>
       <p>Gestión de Pedidos</p>
-    </div>
-    <div class="stat">
+      <small>Crea y gestiona pedidos</small>
+    </a>
+    
+    <a routerLink="/platos" class="stat">
       <h3>🍕</h3>
       <p>Menú de Platos</p>
-    </div>
-    <div class="stat">
-      <h3>👨‍🍳</h3>
-      <p>Control de Meseros</p>
-    </div>
-    <div class="stat">
+      <small>Administra el menú</small>
+    </a>
+    
+    <a routerLink="/tablero" class="stat" *ngIf="esAdmin">
       <h3>📊</h3>
       <p>Estadísticas</p>
+      <small>Ver dashboard</small>
+    </a>
+    
+    <div class="stat">
+      <h3>✅</h3>
+      <p>Sistema Completo</p>
+      <small>Angular 18 + Firebase</small>
     </div>
   </div>
-</div>
 
+  <div class="informacion-sistema">
+    <h3>🎯 Características del Sistema</h3>
+    <ul>
+      <li>✅ Autenticación con roles (Mesero/Administrador)</li>
+      <li>✅ CRUD completo de Platos y Pedidos</li>
+      <li>✅ Gestión de estados en tiempo real</li>
+      <li>✅ Dashboard con estadísticas de ventas</li>
+      <li>✅ Filtros y búsqueda en tiempo real</li>
+      <li>✅ Diseño responsive</li>
+    </ul>
+  </div>
+</div>

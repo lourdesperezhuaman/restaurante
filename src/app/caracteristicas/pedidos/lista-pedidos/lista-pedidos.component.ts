@@ -5,13 +5,21 @@ import { FormsModule } from '@angular/forms';
 import { PedidosService } from '../../../servicios/pedidos.service';
 import { AutenticacionService } from '../../../servicios/autenticacion.service';
 import { MonedaPipe } from '../../../compartido/tubos/moneda.pipe';
-import { FechaFirebasePipe } from '../../../compartido/tubos/fecha-firebase.pipe'; // NUEVO
+import { FechaFirebasePipe } from '../../../compartido/tubos/fecha-firebase.pipe';
+import { ResaltarDirective } from '../../../compartido/directivas/resaltar.directive'; // NUEVO
 import { Pedido, EstadoPedido } from '../../../modelos';
 
 @Component({
   selector: 'app-lista-pedidos',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, MonedaPipe, FechaFirebasePipe], // AGREGADO
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    FormsModule, 
+    MonedaPipe, 
+    FechaFirebasePipe,
+    ResaltarDirective  // AGREGADO
+  ],
   templateUrl: './lista-pedidos.component.html',
   styleUrl: './lista-pedidos.component.css'
 })
@@ -87,19 +95,9 @@ export class ListaPedidosComponent implements OnInit {
   /**
    * Ir a crear nuevo pedido
    */
-/**
- * Ir a crear nuevo pedido
- */
-crearPedido(): void {
-  console.log('🔵 BOTÓN CLICKEADO - Iniciando navegación');
-  console.log('Router:', this.router);
-  try {
+  crearPedido(): void {
     this.router.navigate(['/pedidos/nuevo']);
-    console.log('✅ Navigate ejecutado');
-  } catch (error) {
-    console.error('❌ Error en navigate:', error);
   }
-}
 
   /**
    * Ver detalle del pedido

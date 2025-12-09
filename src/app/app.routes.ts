@@ -6,10 +6,8 @@ import { RegistroComponent } from './caracteristicas/autenticacion/registro/regi
 import { ListaPedidosComponent } from './caracteristicas/pedidos/lista-pedidos/lista-pedidos.component';
 import { FormularioPedidoComponent } from './caracteristicas/pedidos/formulario-pedido/formulario-pedido.component';
 import { ListaPlatosComponent } from './caracteristicas/platos/lista-platos/lista-platos.component';
-import { FormularioPlatoComponent } from './caracteristicas/platos/formulario-plato/formulario-plato.component';
-import { DashboardComponent } from './caracteristicas/tablero/dashboard/dashboard.component'; // NUEVO
+import { PaginaNoEncontradaComponent } from './compartido/componentes/pagina-no-encontrada/pagina-no-encontrada.component';
 import { autenticacionGuard } from './nucleo/guardias/autenticacion.guard';
-import { administradorGuard } from './nucleo/guardias/administrador.guard';
 
 export const routes: Routes = [
   // Rutas públicas
@@ -44,27 +42,23 @@ export const routes: Routes = [
         path: 'platos',
         component: ListaPlatosComponent
       },
+      // Lazy Loading - Módulo de Administración
       {
-        path: 'platos/nuevo',
-        component: FormularioPlatoComponent,
-        canActivate: [administradorGuard]
+        path: '',
+        loadChildren: () => import('./caracteristicas/administracion/administracion.routes')
+          .then(m => m.ADMINISTRACION_ROUTES)
       },
+      // 404 dentro del layout
       {
-        path: 'platos/editar/:id',
-        component: FormularioPlatoComponent,
-        canActivate: [administradorGuard]
-      },
-      {
-        path: 'tablero',  // NUEVO
-        component: DashboardComponent,
-        canActivate: [administradorGuard] // Solo administradores
+        path: '**',
+        component: PaginaNoEncontradaComponent
       }
     ]
   },
   
-  // 404
+  // 404 fuera del layout (cuando no está autenticado)
   {
     path: '**',
-    redirectTo: ''
+    component: PaginaNoEncontradaComponent
   }
 ];

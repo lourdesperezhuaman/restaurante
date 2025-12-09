@@ -45,7 +45,14 @@
 
   <!-- Lista de pedidos -->
   <div *ngIf="!cargando && pedidosFiltrados.length > 0" class="lista-pedidos">
-    <div *ngFor="let pedido of pedidosFiltrados" class="tarjeta-pedido">
+    <!-- DIRECTIVA AGREGADA AQUÍ ↓ -->
+    <div 
+      *ngFor="let pedido of pedidosFiltrados" 
+      class="tarjeta-pedido"
+      appResaltar 
+      [colorResaltado]="'#f0f8ff'"
+      [colorOriginal]="'white'"
+    >
       
       <!-- Encabezado del pedido -->
       <div class="pedido-encabezado">
@@ -106,7 +113,7 @@
         </div>
       </div>
 
-      <!-- Fecha - AQUÍ ESTÁ LA CORRECCIÓN -->
+      <!-- Fecha -->
       <div class="fecha-pedido">
         {{ pedido.fechaCreacion | fechaFirebase | date:'dd/MM/yyyy HH:mm' }}
       </div>
