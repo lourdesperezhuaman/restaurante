@@ -10,7 +10,6 @@ import { PaginaNoEncontradaComponent } from './compartido/componentes/pagina-no-
 import { autenticacionGuard } from './nucleo/guardias/autenticacion.guard';
 
 export const routes: Routes = [
-  // Rutas públicas
   {
     path: 'login',
     component: LoginComponent
@@ -19,8 +18,6 @@ export const routes: Routes = [
     path: 'registro',
     component: RegistroComponent
   },
-  
-  // Rutas protegidas
   {
     path: '',
     component: DiseñoComponent,
@@ -42,21 +39,13 @@ export const routes: Routes = [
         path: 'platos',
         component: ListaPlatosComponent
       },
-      // Lazy Loading - Módulo de Administración
       {
         path: '',
         loadChildren: () => import('./caracteristicas/administracion/administracion.routes')
           .then(m => m.ADMINISTRACION_ROUTES)
-      },
-      // 404 dentro del layout
-      {
-        path: '**',
-        component: PaginaNoEncontradaComponent
       }
     ]
   },
-  
-  // 404 fuera del layout (cuando no está autenticado)
   {
     path: '**',
     component: PaginaNoEncontradaComponent
