@@ -1,11 +1,121 @@
 <div class="contenedor-pedidos">
+  <!-- Encabezado -->
   <div class="encabezado">
-    <h1>📋 Lista de Pedidos</h1>
-    <p>Gestiona todos los pedidos del restaurante</p>
+    <div>
+      <h1>📋 Lista de Pedidos</h1>
+      <p>{{ pedidosFiltrados.length }} pedido(s) encontrado(s)</p>
+    </div>
+    <button class="boton-crear" (click)="crearPedido()">
+      ➕ Nuevo Pedido
+    </button>
   </div>
 
-  <div class="tarjeta-info">
-    <h3>🚧 En construcción</h3>
-    <p>Próximamente aquí podrás ver y gestionar todos los pedidos.</p>
+  <!-- Filtros -->
+  <div class="panel-filtros">
+    <!-- Filtro por estado -->
+    <div class="filtro">
+      <label>🏷️ Estado:</label>
+      <select 
+        [(ngModel)]="estadoSeleccionado"
+        (ngModelChange)="aplicarFiltros()"
+      >
+        <option *ngFor="let estado of estados" [value]="estado === 'Todos' ? '' : estado">
+          {{ estado }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Filtro por mesa -->
+    <div class="filtro">
+      <label>🪑 Mesa:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="numeroMesaFiltro"
+        (ngModelChange)="aplicarFiltros()"
+        placeholder="Buscar por número..."
+      />
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando pedidos...</p>
+  </div>
+
+  <!-- Lista de pedidos -->
+  <div *ngIf="!cargando && pedidosFiltrados.length > 0" class="lista-pedidos">
+    <div *ngFor="let pedido of pedidosFiltrados" class="tarjeta-pedido">
+      
+      <!-- Encabezado del pedido -->
+      <div class="pedido-encabezado">
+        <div class="info-principal">
+          <h3>Mesa {{ pedido.numeroMesa }}</h3>
+          <span class="mesero">👤 {{ pedido.meseroNombre }}</span>
+        </div>
+        <div class="badge-estado" [ngClass]="obtenerClaseEstado(pedido.estado)">
+          {{ pedido.estado }}
+        </div>
+      </div>
+
+      <!-- Artículos del pedido -->
+      <div class="pedido-articulos">
+        <div *ngFor="let articulo of pedido.articulos" class="articulo-item">
+          <span class="cantidad">{{ articulo.cantidad }}x</span>
+          <span class="nombre">{{ articulo.platoNombre }}</span>
+          <span class="precio">{{ articulo.subtotal | moneda }}</span>
+        </div>
+        <div *ngIf="pedido.notas" class="notas-pedido">
+          📝 <em>{{ pedido.notas }}</em>
+        </div>
+      </div>
+
+      <!-- Pie del pedido -->
+      <div class="pedido-pie">
+        <div class="total">
+          <strong>Total:</strong>
+          <span class="monto">{{ pedido.total | moneda }}</span>
+        </div>
+
+        <div class="acciones">
+          <!-- Botón siguiente estado -->
+          <button 
+            *ngIf="obtenerSiguienteEstado(pedido.estado)"
+            class="boton-siguiente-estado"
+            (click)="cambiarEstado(pedido, obtenerSiguienteEstado(pedido.estado)!)"
+          >
+            ▶ {{ obtenerSiguienteEstado(pedido.estado) }}
+          </button>
+
+          <!-- Botón ver detalle -->
+          <button 
+            class="boton-detalle"
+            (click)="verDetalle(pedido.id!)"
+          >
+            👁️ Ver
+          </button>
+
+          <!-- Botón eliminar (solo admin) -->
+          <button 
+            *ngIf="esAdmin && pedido.estado !== EstadoPedido.ENTREGADO"
+            class="boton-eliminar"
+            (click)="eliminarPedido(pedido)"
+          >
+            🗑️
+          </button>
+        </div>
+      </div>
+
+      <!-- Fecha - AQUÍ ESTÁ LA CORRECCIÓN -->
+      <div class="fecha-pedido">
+        {{ pedido.fechaCreacion | fechaFirebase | date:'dd/MM/yyyy HH:mm' }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin resultados -->
+  <div *ngIf="!cargando && pedidosFiltrados.length === 0" class="sin-resultados">
+    <h3>📋 No hay pedidos</h3>
+    <p>Crea el primer pedido haciendo clic en "Nuevo Pedido"</p>
   </div>
 </div>

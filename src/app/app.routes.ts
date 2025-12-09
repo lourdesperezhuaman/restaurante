@@ -4,8 +4,10 @@ import { InicioComponent } from './caracteristicas/inicio/inicio.component';
 import { LoginComponent } from './caracteristicas/autenticacion/login/login.component';
 import { RegistroComponent } from './caracteristicas/autenticacion/registro/registro.component';
 import { ListaPedidosComponent } from './caracteristicas/pedidos/lista-pedidos/lista-pedidos.component';
+import { FormularioPedidoComponent } from './caracteristicas/pedidos/formulario-pedido/formulario-pedido.component';
 import { ListaPlatosComponent } from './caracteristicas/platos/lista-platos/lista-platos.component';
 import { FormularioPlatoComponent } from './caracteristicas/platos/formulario-plato/formulario-plato.component';
+import { DashboardComponent } from './caracteristicas/tablero/dashboard/dashboard.component'; // NUEVO
 import { autenticacionGuard } from './nucleo/guardias/autenticacion.guard';
 import { administradorGuard } from './nucleo/guardias/administrador.guard';
 
@@ -35,18 +37,27 @@ export const routes: Routes = [
         component: ListaPedidosComponent
       },
       {
+        path: 'pedidos/nuevo',
+        component: FormularioPedidoComponent
+      },
+      {
         path: 'platos',
         component: ListaPlatosComponent
       },
       {
         path: 'platos/nuevo',
         component: FormularioPlatoComponent,
-        canActivate: [administradorGuard] // Solo admins
+        canActivate: [administradorGuard]
       },
       {
         path: 'platos/editar/:id',
         component: FormularioPlatoComponent,
-        canActivate: [administradorGuard] // Solo admins
+        canActivate: [administradorGuard]
+      },
+      {
+        path: 'tablero',  // NUEVO
+        component: DashboardComponent,
+        canActivate: [administradorGuard] // Solo administradores
       }
     ]
   },

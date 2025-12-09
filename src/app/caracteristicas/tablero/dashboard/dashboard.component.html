@@ -1,0 +1,113 @@
+<div class="contenedor-dashboard">
+  <!-- Encabezado -->
+  <div class="encabezado">
+    <div>
+      <h1>📊 Tablero de Estadísticas</h1>
+      <p>Estadísticas del día actual</p>
+    </div>
+    <button class="boton-recargar" (click)="recargar()" [disabled]="cargando">
+      🔄 Actualizar
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <!-- Contenido -->
+  <div *ngIf="!cargando" class="contenido-dashboard">
+    
+    <!-- Tarjetas de resumen -->
+    <div class="grid-tarjetas">
+      <!-- Ventas del día -->
+      <div class="tarjeta tarjeta-ventas">
+        <div class="icono">💰</div>
+        <div class="info">
+          <h3>Ventas del Día</h3>
+          <p class="numero">{{ totalVentasHoy | moneda }}</p>
+          <span class="descripcion">{{ cantidadPedidosHoy }} pedido(s)</span>
+        </div>
+      </div>
+
+      <!-- Pedidos pendientes -->
+      <div class="tarjeta tarjeta-pendientes">
+        <div class="icono">⏳</div>
+        <div class="info">
+          <h3>Pendientes</h3>
+          <p class="numero">{{ pedidosPendientes }}</p>
+          <span class="descripcion">En proceso</span>
+        </div>
+      </div>
+
+      <!-- Pedidos entregados -->
+      <div class="tarjeta tarjeta-entregados">
+        <div class="icono">✅</div>
+        <div class="info">
+          <h3>Entregados</h3>
+          <p class="numero">{{ pedidosEntregados }}</p>
+          <span class="descripcion">Completados hoy</span>
+        </div>
+      </div>
+
+      <!-- Platos vendidos -->
+      <div class="tarjeta tarjeta-platos">
+        <div class="icono">🍽️</div>
+        <div class="info">
+          <h3>Platos Vendidos</h3>
+          <p class="numero">{{ platosVendidosHoy }}</p>
+          <span class="descripcion">Total de platos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección inferior -->
+    <div class="grid-graficos">
+      
+      <!-- Platos más vendidos -->
+      <div class="panel-grafico">
+        <h2>🏆 Top 5 - Platos Más Vendidos</h2>
+        
+        <div *ngIf="platosMasVendidos.length > 0" class="lista-platos">
+          <div *ngFor="let plato of platosMasVendidos; let i = index" class="item-plato">
+            <div class="ranking">{{ i + 1 }}</div>
+            <div class="info-plato">
+              <h4>{{ plato.nombre }}</h4>
+              <p>{{ plato.cantidad }} unidades vendidas</p>
+            </div>
+            <div class="total-plato">{{ plato.total | moneda }}</div>
+          </div>
+        </div>
+
+        <div *ngIf="platosMasVendidos.length === 0" class="sin-datos">
+          <p>📊 Aún no hay datos de ventas</p>
+        </div>
+      </div>
+
+      <!-- Pedidos por estado -->
+      <div class="panel-grafico">
+        <h2>📈 Pedidos por Estado</h2>
+        
+        <div *ngIf="pedidosPorEstado.length > 0" class="lista-estados">
+          <div *ngFor="let item of pedidosPorEstado" class="item-estado">
+            <div class="info-estado">
+              <span class="badge-estado" [ngClass]="obtenerClaseEstado(item.estado)">
+                {{ item.estado }}
+              </span>
+              <span class="cantidad">{{ item.cantidad }} pedido(s)</span>
+            </div>
+            <div class="barra-progreso">
+              <div class="progreso" [style.width.%]="item.porcentaje"></div>
+            </div>
+            <span class="porcentaje">{{ item.porcentaje }}%</span>
+          </div>
+        </div>
+
+        <div *ngIf="pedidosPorEstado.length === 0" class="sin-datos">
+          <p>📊 Aún no hay pedidos registrados</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
