@@ -1,26 +1,31 @@
 <div class="contenedor-login">
+  <div class="fondo-imagen"></div>
+  
   <div class="tarjeta-login">
-    <!-- Encabezado -->
     <div class="encabezado-login">
-      <h1>🍽️ Sistema de Pedidos</h1>
+      <div class="icono-contenedor">
+        <img src="/logo/logo.png" alt="Logo" class="logo-circular">
+      </div>
+      <h1>Sistema de Pedidos</h1>
       <p>Inicia sesión para continuar</p>
     </div>
 
-    <!-- Formulario -->
     <form [formGroup]="formularioLogin" (ngSubmit)="onSubmit()">
       
-      <!-- Campo: Email -->
       <div class="campo-formulario">
         <label for="email">Correo electrónico</label>
-        <input 
-          type="email" 
-          id="email" 
-          formControlName="email"
-          placeholder="ejemplo@correo.com"
-          [class.input-error]="email?.invalid && email?.touched"
-        />
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email"
+            placeholder="ejemplo@correo.com"
+            [class.input-error]="email?.invalid && email?.touched"
+            [class.input-success]="email?.valid && email?.touched"
+          />
+          <span class="input-icono" *ngIf="email?.valid && email?.touched">✓</span>
+        </div>
         
-        <!-- Mensajes de error -->
         <div class="mensaje-error" *ngIf="email?.invalid && email?.touched">
           <small *ngIf="email?.errors?.['required']">
             El correo es obligatorio
@@ -31,18 +36,20 @@
         </div>
       </div>
 
-      <!-- Campo: Contraseña -->
       <div class="campo-formulario">
         <label for="password">Contraseña</label>
-        <input 
-          type="password" 
-          id="password" 
-          formControlName="password"
-          placeholder="••••••••"
-          [class.input-error]="password?.invalid && password?.touched"
-        />
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password"
+            placeholder="••••••••"
+            [class.input-error]="password?.invalid && password?.touched"
+            [class.input-success]="password?.valid && password?.touched"
+          />
+          <span class="input-icono" *ngIf="password?.valid && password?.touched">✓</span>
+        </div>
         
-        <!-- Mensajes de error -->
         <div class="mensaje-error" *ngIf="password?.invalid && password?.touched">
           <small *ngIf="password?.errors?.['required']">
             La contraseña es obligatoria
@@ -53,26 +60,36 @@
         </div>
       </div>
 
-      <!-- Mensaje de error del servidor -->
-      <div class="alerta-error" *ngIf="mensajeError">
+      <div class="alerta-error animate-shake" *ngIf="mensajeError">
         {{ mensajeError }}
       </div>
 
-      <!-- Botón de enviar -->
       <button 
         type="submit" 
         class="boton-principal"
-        [disabled]="cargando"
+        [disabled]="cargando || formularioLogin.invalid"
       >
-        <span *ngIf="!cargando">Iniciar Sesión</span>
-        <span *ngIf="cargando">Cargando...</span>
+        <span class="boton-contenido" *ngIf="!cargando">
+          <span class="boton-texto">Iniciar Sesión</span>
+          <span class="boton-icono">→</span>
+        </span>
+        <span class="boton-contenido" *ngIf="cargando">
+          <span class="spinner"></span>
+          <span class="boton-texto">Cargando...</span>
+        </span>
       </button>
 
-      <!-- Link a registro -->
+      <div class="separador">
+        <span>o</span>
+      </div>
+
       <div class="link-registro">
         <p>
           ¿No tienes cuenta? 
-          <a routerLink="/registro">Regístrate aquí</a>
+          <a routerLink="/registro" class="link-animado">
+            Regístrate aquí
+            <span class="link-flecha">→</span>
+          </a>
         </p>
       </div>
     </form>

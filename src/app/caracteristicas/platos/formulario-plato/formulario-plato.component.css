@@ -1,0 +1,166 @@
+.contenedor-formulario {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.encabezado {
+  margin-bottom: 2rem;
+}
+
+.encabezado h1 {
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+}
+
+.encabezado p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.tarjeta-formulario {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Campos del formulario */
+.campo-formulario {
+  margin-bottom: 1.5rem;
+}
+
+.campo-formulario label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.campo-formulario input,
+.campo-formulario textarea,
+.campo-formulario select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.campo-formulario input:focus,
+.campo-formulario textarea:focus,
+.campo-formulario select:focus {
+  outline: none;
+  border-color: #27ae60;
+}
+
+.campo-formulario input.input-error,
+.campo-formulario textarea.input-error {
+  border-color: #e74c3c;
+}
+
+/* Fila de campos */
+.fila-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Checkbox */
+.campo-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.campo-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.campo-checkbox label {
+  cursor: pointer;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+/* Mensajes de error */
+.mensaje-error {
+  margin-top: 0.5rem;
+}
+
+.mensaje-error small {
+  color: #e74c3c;
+  font-size: 0.875rem;
+}
+
+.alerta-error {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Botones */
+.botones {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.boton-principal,
+.boton-secundario {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.boton-principal {
+  background-color: #27ae60;
+  color: white;
+}
+
+.boton-principal:hover:not(:disabled) {
+  background-color: #229954;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+.boton-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.boton-secundario {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.boton-secundario:hover:not(:disabled) {
+  background-color: #7f8c8d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fila-campos {
+    grid-template-columns: 1fr;
+  }
+
+  .botones {
+    flex-direction: column;
+  }
+
+  .boton-principal,
+  .boton-secundario {
+    width: 100%;
+  }
+}

@@ -1,11 +1,120 @@
 <div class="contenedor-platos">
+  <!-- Encabezado -->
   <div class="encabezado">
-    <h1>🍕 Menú de Platos</h1>
-    <p>Administra el menú del restaurante</p>
+    <div>
+      <h1>🍕 Menú de Platos</h1>
+      <p>{{ platosFiltrados.length }} plato(s) encontrado(s)</p>
+    </div>
+    <button 
+      *ngIf="esAdmin" 
+      class="boton-agregar"
+      (click)="agregarPlato()"
+    >
+      ➕ Agregar Plato
+    </button>
   </div>
 
-  <div class="tarjeta-info">
-    <h3>🚧 En construcción</h3>
-    <p>Próximamente aquí podrás gestionar el menú completo.</p>
+  <!-- Filtros -->
+  <div class="panel-filtros">
+    <!-- Búsqueda por texto -->
+    <div class="filtro">
+      <label>🔍 Buscar:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="textoBusqueda"
+        (ngModelChange)="aplicarFiltros()"
+        placeholder="Buscar por nombre o descripción..."
+      />
+    </div>
+
+    <!-- Filtro por categoría -->
+    <div class="filtro">
+      <label>🏷️ Categoría:</label>
+      <select 
+        [(ngModel)]="categoriaSeleccionada"
+        (ngModelChange)="aplicarFiltros()"
+      >
+        <option *ngFor="let cat of categorias" [value]="cat === 'Todas' ? '' : cat">
+          {{ cat }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Filtro solo disponibles -->
+    <div class="filtro-checkbox">
+      <input 
+        type="checkbox" 
+        id="soloDisponibles"
+        [(ngModel)]="soloDisponibles"
+        (ngModelChange)="aplicarFiltros()"
+      />
+      <label for="soloDisponibles">Solo disponibles</label>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando platos...</p>
+  </div>
+
+  <!-- Lista de platos -->
+  <div *ngIf="!cargando && platosFiltrados.length > 0" class="grid-platos">
+    <div *ngFor="let plato of platosFiltrados" class="tarjeta-plato">
+      <!-- Badge de disponibilidad -->
+      <div class="badge-disponibilidad" [class.no-disponible]="!plato.disponible">
+        {{ plato.disponible ? '✓ Disponible' : '✗ No disponible' }}
+      </div>
+
+      <!-- Imagen -->
+      <div class="imagen-plato">
+        <img 
+          [src]="plato.imagenUrl || 'https://via.placeholder.com/300x200?text=Sin+Imagen'" 
+          [alt]="plato.nombre"
+        />
+      </div>
+
+      <!-- Contenido -->
+      <div class="contenido-plato">
+        <span class="categoria">{{ plato.categoria }}</span>
+        <h3>{{ plato.nombre }}</h3>
+        <p>{{ plato.descripcion }}</p>
+        
+        <div class="precio">
+          {{ plato.precio | moneda }}
+        </div>
+
+        <!-- Acciones (solo admin) -->
+        <div *ngIf="esAdmin" class="acciones">
+          <button 
+            class="boton-editar"
+            (click)="editarPlato(plato.id!)"
+          >
+            ✏️ Editar
+          </button>
+          
+          <button 
+            class="boton-toggle"
+            [class.activar]="!plato.disponible"
+            (click)="toggleDisponibilidad(plato)"
+          >
+            {{ plato.disponible ? '🚫 Desactivar' : '✓ Activar' }}
+          </button>
+          
+          <button 
+            class="boton-eliminar"
+            (click)="eliminarPlato(plato)"
+          >
+            🗑️ Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin resultados -->
+  <div *ngIf="!cargando && platosFiltrados.length === 0" class="sin-resultados">
+    <h3>🔍 No se encontraron platos</h3>
+    <p>Intenta con otros filtros o agrega nuevos platos al menú</p>
   </div>
 </div>

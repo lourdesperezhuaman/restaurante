@@ -1,0 +1,135 @@
+<div class="contenedor-formulario">
+  <div class="encabezado">
+    <h1>{{ modoEdicion ? '✏️ Editar Plato' : '➕ Agregar Plato' }}</h1>
+    <p>{{ modoEdicion ? 'Actualiza la información del plato' : 'Completa los datos del nuevo plato' }}</p>
+  </div>
+
+  <div class="tarjeta-formulario">
+    <form [formGroup]="formularioPlato" (ngSubmit)="onSubmit()">
+      
+      <!-- Nombre del plato -->
+      <div class="campo-formulario">
+        <label for="nombre">Nombre del plato *</label>
+        <input 
+          type="text" 
+          id="nombre" 
+          formControlName="nombre"
+          placeholder="Ej: Lomo Saltado"
+          [class.input-error]="nombre?.invalid && nombre?.touched"
+        />
+        <div class="mensaje-error" *ngIf="nombre?.invalid && nombre?.touched">
+          <small *ngIf="nombre?.errors?.['required']">
+            El nombre es obligatorio
+          </small>
+          <small *ngIf="nombre?.errors?.['minlength']">
+            Debe tener al menos 3 caracteres
+          </small>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="campo-formulario">
+        <label for="descripcion">Descripción *</label>
+        <textarea 
+          id="descripcion" 
+          formControlName="descripcion"
+          placeholder="Describe el plato..."
+          rows="3"
+          [class.input-error]="descripcion?.invalid && descripcion?.touched"
+        ></textarea>
+        <div class="mensaje-error" *ngIf="descripcion?.invalid && descripcion?.touched">
+          <small *ngIf="descripcion?.errors?.['required']">
+            La descripción es obligatoria
+          </small>
+          <small *ngIf="descripcion?.errors?.['minlength']">
+            Debe tener al menos 10 caracteres
+          </small>
+        </div>
+      </div>
+
+      <!-- Fila: Categoría y Precio -->
+      <div class="fila-campos">
+        <!-- Categoría -->
+        <div class="campo-formulario">
+          <label for="categoria">Categoría *</label>
+          <select id="categoria" formControlName="categoria">
+            <option *ngFor="let cat of categorias" [value]="cat">
+              {{ cat }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Precio -->
+        <div class="campo-formulario">
+          <label for="precio">Precio (S/) *</label>
+          <input 
+            type="number" 
+            id="precio" 
+            formControlName="precio"
+            placeholder="0.00"
+            step="0.01"
+            min="0"
+            [class.input-error]="precio?.invalid && precio?.touched"
+          />
+          <div class="mensaje-error" *ngIf="precio?.invalid && precio?.touched">
+            <small *ngIf="precio?.errors?.['required']">
+              El precio es obligatorio
+            </small>
+            <small *ngIf="precio?.errors?.['min']">
+              Debe ser mayor a 0
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- URL de imagen (opcional) -->
+      <div class="campo-formulario">
+        <label for="imagenUrl">URL de imagen (opcional)</label>
+        <input 
+          type="url" 
+          id="imagenUrl" 
+          formControlName="imagenUrl"
+          placeholder="https://ejemplo.com/imagen.jpg"
+        />
+      </div>
+
+      <!-- Disponible -->
+      <div class="campo-checkbox">
+        <input 
+          type="checkbox" 
+          id="disponible" 
+          formControlName="disponible"
+        />
+        <label for="disponible">Plato disponible para pedidos</label>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div class="alerta-error" *ngIf="mensajeError">
+        {{ mensajeError }}
+      </div>
+
+      <!-- Botones -->
+      <div class="botones">
+        <button 
+          type="button" 
+          class="boton-secundario"
+          (click)="cancelar()"
+          [disabled]="cargando"
+        >
+          Cancelar
+        </button>
+        
+        <button 
+          type="submit" 
+          class="boton-principal"
+          [disabled]="cargando || formularioPlato.invalid"
+        >
+          <span *ngIf="!cargando">
+            {{ modoEdicion ? 'Actualizar' : 'Guardar' }} Plato
+          </span>
+          <span *ngIf="cargando">Guardando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

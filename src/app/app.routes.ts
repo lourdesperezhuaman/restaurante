@@ -5,10 +5,12 @@ import { LoginComponent } from './caracteristicas/autenticacion/login/login.comp
 import { RegistroComponent } from './caracteristicas/autenticacion/registro/registro.component';
 import { ListaPedidosComponent } from './caracteristicas/pedidos/lista-pedidos/lista-pedidos.component';
 import { ListaPlatosComponent } from './caracteristicas/platos/lista-platos/lista-platos.component';
+import { FormularioPlatoComponent } from './caracteristicas/platos/formulario-plato/formulario-plato.component';
 import { autenticacionGuard } from './nucleo/guardias/autenticacion.guard';
+import { administradorGuard } from './nucleo/guardias/administrador.guard';
 
 export const routes: Routes = [
-  // Aun no ponemos la rutas layout o como se diga
+  // Rutas públicas
   {
     path: 'login',
     component: LoginComponent
@@ -18,11 +20,11 @@ export const routes: Routes = [
     component: RegistroComponent
   },
   
-  // Rutas protegidas aca si tiene layout y la autenticacion
+  // Rutas protegidas
   {
     path: '',
     component: DiseñoComponent,
-    canActivate: [autenticacionGuard], // AcA protegemos la rutas
+    canActivate: [autenticacionGuard],
     children: [
       {
         path: '',
@@ -35,12 +37,21 @@ export const routes: Routes = [
       {
         path: 'platos',
         component: ListaPlatosComponent
+      },
+      {
+        path: 'platos/nuevo',
+        component: FormularioPlatoComponent,
+        canActivate: [administradorGuard] // Solo admins
+      },
+      {
+        path: 'platos/editar/:id',
+        component: FormularioPlatoComponent,
+        canActivate: [administradorGuard] // Solo admins
       }
-      //uhmm otras rutas pondriamos
     ]
   },
   
-  // Ruta 404 - No encontrado segun el word
+  // 404
   {
     path: '**',
     redirectTo: ''
