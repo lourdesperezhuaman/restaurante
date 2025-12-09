@@ -1,80 +1,83 @@
 <div class="contenedor-dashboard">
-  <!-- Encabezado -->
   <div class="encabezado">
     <div>
       <h1>📊 Tablero de Estadísticas</h1>
-      <p>Estadísticas del día actual</p>
+      <p>Resumen del día actual</p>
     </div>
     <button class="boton-recargar" (click)="recargar()" [disabled]="cargando">
       🔄 Actualizar
     </button>
   </div>
 
-  <!-- Loading -->
   <div *ngIf="cargando" class="loading">
     <div class="spinner"></div>
     <p>Cargando estadísticas...</p>
   </div>
 
-  <!-- Contenido -->
   <div *ngIf="!cargando" class="contenido-dashboard">
     
-    <!-- Tarjetas de resumen -->
     <div class="grid-tarjetas">
-      <!-- Ventas del día -->
       <div class="tarjeta tarjeta-ventas">
-        <div class="icono">💰</div>
-        <div class="info">
-          <h3>Ventas del Día</h3>
-          <p class="numero">{{ totalVentasHoy | moneda }}</p>
-          <span class="descripcion">{{ cantidadPedidosHoy }} pedido(s)</span>
+        <div class="tarjeta-contenido">
+          <div class="icono">💰</div>
+          <div class="info">
+            <h3>Ventas del Día</h3>
+            <p class="numero">{{ totalVentasHoy | moneda }}</p>
+            <span class="descripcion">{{ cantidadPedidosHoy }} pedido(s)</span>
+          </div>
         </div>
       </div>
 
-      <!-- Pedidos pendientes -->
       <div class="tarjeta tarjeta-pendientes">
-        <div class="icono">⏳</div>
-        <div class="info">
-          <h3>Pendientes</h3>
-          <p class="numero">{{ pedidosPendientes }}</p>
-          <span class="descripcion">En proceso</span>
+        <div class="tarjeta-contenido">
+          <div class="icono">⏳</div>
+          <div class="info">
+            <h3>En Proceso</h3>
+            <p class="numero">{{ pedidosPendientes }}</p>
+            <span class="descripcion">Pendientes</span>
+          </div>
         </div>
       </div>
 
-      <!-- Pedidos entregados -->
       <div class="tarjeta tarjeta-entregados">
-        <div class="icono">✅</div>
-        <div class="info">
-          <h3>Entregados</h3>
-          <p class="numero">{{ pedidosEntregados }}</p>
-          <span class="descripcion">Completados hoy</span>
+        <div class="tarjeta-contenido">
+          <div class="icono">✅</div>
+          <div class="info">
+            <h3>Completados</h3>
+            <p class="numero">{{ pedidosEntregados }}</p>
+            <span class="descripcion">Entregados</span>
+          </div>
         </div>
       </div>
 
-      <!-- Platos vendidos -->
       <div class="tarjeta tarjeta-platos">
-        <div class="icono">🍽️</div>
-        <div class="info">
-          <h3>Platos Vendidos</h3>
-          <p class="numero">{{ platosVendidosHoy }}</p>
-          <span class="descripcion">Total de platos</span>
+        <div class="tarjeta-contenido">
+          <div class="icono">🍽️</div>
+          <div class="info">
+            <h3>Platos Vendidos</h3>
+            <p class="numero">{{ platosVendidosHoy }}</p>
+            <span class="descripcion">Total del día</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Sección inferior -->
     <div class="grid-graficos">
       
-      <!-- Platos más vendidos -->
       <div class="panel-grafico">
         <h2>🏆 Top 5 - Platos Más Vendidos</h2>
         
         <div *ngIf="platosMasVendidos.length > 0" class="lista-platos">
           <div *ngFor="let plato of platosMasVendidos; let i = index" class="item-plato">
-            <div class="ranking">{{ i + 1 }}</div>
+            <div class="ranking" [class.top1]="i === 0" [class.top2]="i === 1" [class.top3]="i === 2">
+              {{ i + 1 }}
+            </div>
             <div class="info-plato">
               <h4>{{ plato.nombre }}</h4>
-              <p>{{ plato.cantidad }} unidades vendidas</p>
+              <p>{{ plato.cantidad }} unidades</p>
+            </div>
+            <div class="barra-container">
+              <div class="barra" [style.width.%]="(plato.cantidad / platosMasVendidos[0].cantidad) * 100"></div>
             </div>
             <div class="total-plato">{{ plato.total | moneda }}</div>
           </div>
@@ -85,27 +88,36 @@
         </div>
       </div>
 
-      <!-- Pedidos por estado -->
       <div class="panel-grafico">
-        <h2>📈 Pedidos por Estado</h2>
+        <h2>📈 Distribución de Pedidos</h2>
         
-        <div *ngIf="pedidosPorEstado.length > 0" class="lista-estados">
-          <div *ngFor="let item of pedidosPorEstado" class="item-estado">
-            <div class="info-estado">
-              <span class="badge-estado" [ngClass]="obtenerClaseEstado(item.estado)">
-                {{ item.estado }}
-              </span>
-              <span class="cantidad">{{ item.cantidad }} pedido(s)</span>
+        <div *ngIf="pedidosPorEstado.length > 0" class="grafico-circular">
+          <svg viewBox="0 0 200 200" class="donut-chart">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#ecf0f1" stroke-width="40"/>
+            <circle 
+              *ngFor="let item of pedidosPorEstado; let i = index"
+              cx="100" 
+              cy="100" 
+              r="80" 
+              fill="none" 
+              [attr.stroke]="obtenerColorEstado(item.estado)"
+              stroke-width="40"
+              [attr.stroke-dasharray]="calcularDashArray(item.porcentaje)"
+              [attr.stroke-dashoffset]="calcularDashOffset(i)"
+              [attr.transform]="'rotate(-90 100 100)'"
+            />
+          </svg>
+          
+          <div class="leyenda-circular">
+            <div *ngFor="let item of pedidosPorEstado" class="leyenda-item">
+              <span class="indicador" [style.background-color]="obtenerColorEstado(item.estado)"></span>
+              <span class="texto">{{ item.estado }}: {{ item.cantidad }} ({{ item.porcentaje }}%)</span>
             </div>
-            <div class="barra-progreso">
-              <div class="progreso" [style.width.%]="item.porcentaje"></div>
-            </div>
-            <span class="porcentaje">{{ item.porcentaje }}%</span>
           </div>
         </div>
 
         <div *ngIf="pedidosPorEstado.length === 0" class="sin-datos">
-          <p>📊 Aún no hay pedidos registrados</p>
+          <p>📊 Aún no hay pedidos</p>
         </div>
       </div>
     </div>

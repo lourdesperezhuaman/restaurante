@@ -48,8 +48,15 @@
   margin-bottom: 2rem;
   display: grid;
   grid-template-columns: 2fr 1fr auto;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: end;
+}
+
+@media (max-width: 768px) {
+  .panel-filtros {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 .filtro label {

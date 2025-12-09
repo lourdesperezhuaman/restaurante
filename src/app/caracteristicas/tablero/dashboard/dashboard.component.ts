@@ -20,30 +20,20 @@ interface EstadisticasPlato {
 export class DashboardComponent implements OnInit {
   private pedidosService = inject(PedidosService);
 
-  // Estadísticas
   totalVentasHoy = 0;
   cantidadPedidosHoy = 0;
   pedidosPendientes = 0;
   pedidosEntregados = 0;
   platosVendidosHoy = 0;
-  
-  // Top platos
   platosMasVendidos: EstadisticasPlato[] = [];
-  
-  // Datos para gráficos
   pedidosPorEstado: { estado: string; cantidad: number; porcentaje: number }[] = [];
-  
   cargando = true;
 
   ngOnInit(): void {
     this.cargarEstadisticas();
   }
 
-  /**
-   * Cargar todas las estadísticas
-   */
   cargarEstadisticas(): void {
-    // Obtener pedidos del día
     this.pedidosService.obtenerPedidosDelDia().subscribe({
       next: (pedidos) => {
         this.calcularEstadisticas(pedidos);
@@ -56,50 +46,31 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  /**
-   * Calcular todas las estadísticas
-   */
-/**
- * Calcular todas las estadísticas
- */
-calcularEstadisticas(pedidos: Pedido[]): void {
-  // RESETEAR TODOS LOS CONTADORES PRIMERO
-  this.totalVentasHoy = 0;
-  this.cantidadPedidosHoy = 0;
-  this.pedidosPendientes = 0;
-  this.pedidosEntregados = 0;
-  this.platosVendidosHoy = 0; // ← AGREGAR ESTA LÍNEA
-  this.platosMasVendidos = [];
-  this.pedidosPorEstado = [];
-  
-  // Total de ventas del día
-  this.totalVentasHoy = pedidos.reduce((total, pedido) => total + pedido.total, 0);
-  
-  // Cantidad de pedidos
-  this.cantidadPedidosHoy = pedidos.length;
-  
-  // Pedidos por estado
-  this.pedidosPendientes = pedidos.filter(p => p.estado === EstadoPedido.PENDIENTE || p.estado === EstadoPedido.EN_PREPARACION).length;
-  this.pedidosEntregados = pedidos.filter(p => p.estado === EstadoPedido.ENTREGADO).length;
-  
-  // Calcular platos vendidos
-  this.calcularPlatosVendidos(pedidos);
-  
-  // Calcular distribución por estado
-  this.calcularPedidosPorEstado(pedidos);
-}
+  calcularEstadisticas(pedidos: Pedido[]): void {
+    this.totalVentasHoy = 0;
+    this.cantidadPedidosHoy = 0;
+    this.pedidosPendientes = 0;
+    this.pedidosEntregados = 0;
+    this.platosVendidosHoy = 0;
+    this.platosMasVendidos = [];
+    this.pedidosPorEstado = [];
 
-  /**
-   * Calcular los platos más vendidos
-   */
+    this.totalVentasHoy = pedidos.reduce((total, pedido) => total + pedido.total, 0);
+    this.cantidadPedidosHoy = pedidos.length;
+    this.pedidosPendientes = pedidos.filter(p => p.estado === EstadoPedido.PENDIENTE || p.estado === EstadoPedido.EN_PREPARACION).length;
+    this.pedidosEntregados = pedidos.filter(p => p.estado === EstadoPedido.ENTREGADO).length;
+    
+    this.calcularPlatosVendidos(pedidos);
+    this.calcularPedidosPorEstado(pedidos);
+  }
+
   calcularPlatosVendidos(pedidos: Pedido[]): void {
+    this.platosVendidosHoy = 0;
     const mapaPlatos = new Map<string, EstadisticasPlato>();
     
-    // Recorrer todos los pedidos
     pedidos.forEach(pedido => {
       pedido.articulos.forEach(articulo => {
         const platoExistente = mapaPlatos.get(articulo.platoNombre);
-        
         if (platoExistente) {
           platoExistente.cantidad += articulo.cantidad;
           platoExistente.total += articulo.subtotal;
@@ -110,21 +81,15 @@ calcularEstadisticas(pedidos: Pedido[]): void {
             total: articulo.subtotal
           });
         }
-        
-        // Incrementar total de platos vendidos
         this.platosVendidosHoy += articulo.cantidad;
       });
     });
     
-    // Convertir a array y ordenar por cantidad
     this.platosMasVendidos = Array.from(mapaPlatos.values())
       .sort((a, b) => b.cantidad - a.cantidad)
-      .slice(0, 5); // Top 5
+      .slice(0, 5);
   }
 
-  /**
-   * Calcular distribución de pedidos por estado
-   */
   calcularPedidosPorEstado(pedidos: Pedido[]): void {
     const contadores = {
       [EstadoPedido.PENDIENTE]: 0,
@@ -138,8 +103,7 @@ calcularEstadisticas(pedidos: Pedido[]): void {
       contadores[pedido.estado]++;
     });
     
-    const total = pedidos.length || 1; // Evitar división por cero
-    
+    const total = pedidos.length || 1;
     this.pedidosPorEstado = Object.entries(contadores)
       .filter(([_, cantidad]) => cantidad > 0)
       .map(([estado, cantidad]) => ({
@@ -149,29 +113,32 @@ calcularEstadisticas(pedidos: Pedido[]): void {
       }));
   }
 
-  /**
-   * Obtener clase CSS según el estado
-   */
-  obtenerClaseEstado(estado: string): string {
+  obtenerColorEstado(estado: string): string {
     switch (estado) {
-      case EstadoPedido.PENDIENTE:
-        return 'estado-pendiente';
-      case EstadoPedido.EN_PREPARACION:
-        return 'estado-preparacion';
-      case EstadoPedido.LISTO:
-        return 'estado-listo';
-      case EstadoPedido.ENTREGADO:
-        return 'estado-entregado';
-      case EstadoPedido.CANCELADO:
-        return 'estado-cancelado';
-      default:
-        return '';
+      case EstadoPedido.PENDIENTE: return '#ffc107';
+      case EstadoPedido.EN_PREPARACION: return '#2196f3';
+      case EstadoPedido.LISTO: return '#4caf50';
+      case EstadoPedido.ENTREGADO: return '#9e9e9e';
+      case EstadoPedido.CANCELADO: return '#f44336';
+      default: return '#ddd';
     }
   }
 
-  /**
-   * Recargar estadísticas
-   */
+  calcularDashArray(porcentaje: number): string {
+    const circunferencia = 2 * Math.PI * 80;
+    const longitud = (porcentaje / 100) * circunferencia;
+    return `${longitud} ${circunferencia}`;
+  }
+
+  calcularDashOffset(index: number): number {
+    const circunferencia = 2 * Math.PI * 80;
+    let offset = 0;
+    for (let i = 0; i < index; i++) {
+      offset += (this.pedidosPorEstado[i].porcentaje / 100) * circunferencia;
+    }
+    return -offset;
+  }
+
   recargar(): void {
     this.cargando = true;
     this.cargarEstadisticas();

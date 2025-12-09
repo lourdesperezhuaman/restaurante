@@ -5,6 +5,7 @@ import { LoginComponent } from './caracteristicas/autenticacion/login/login.comp
 import { RegistroComponent } from './caracteristicas/autenticacion/registro/registro.component';
 import { ListaPedidosComponent } from './caracteristicas/pedidos/lista-pedidos/lista-pedidos.component';
 import { FormularioPedidoComponent } from './caracteristicas/pedidos/formulario-pedido/formulario-pedido.component';
+import { DetallePedidoComponent } from './caracteristicas/pedidos/detalle-pedido/detalle-pedido.component';
 import { ListaPlatosComponent } from './caracteristicas/platos/lista-platos/lista-platos.component';
 import { PaginaNoEncontradaComponent } from './compartido/componentes/pagina-no-encontrada/pagina-no-encontrada.component';
 import { autenticacionGuard } from './nucleo/guardias/autenticacion.guard';
@@ -34,6 +35,10 @@ export const routes: Routes = [
       {
         path: 'pedidos/nuevo',
         component: FormularioPedidoComponent
+      },
+      {
+        path: 'pedidos/detalle/:id',
+        component: DetallePedidoComponent
       },
       {
         path: 'platos',

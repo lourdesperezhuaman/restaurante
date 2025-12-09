@@ -1,0 +1,68 @@
+<div class="contenedor-detalle" *ngIf="!cargando && pedido">
+  <div class="encabezado">
+    <button class="boton-volver" (click)="volver()">← Volver</button>
+    <h1>Detalle del Pedido - Mesa {{ pedido.numeroMesa }}</h1>
+  </div>
+
+  <div class="grid-detalle">
+    <div class="tarjeta-info">
+      <h2>Información General</h2>
+      <div class="info-item">
+        <span class="etiqueta">Mesa:</span>
+        <span class="valor">{{ pedido.numeroMesa }}</span>
+      </div>
+      <div class="info-item">
+        <span class="etiqueta">Mesero:</span>
+        <span class="valor">{{ pedido.meseroNombre }}</span>
+      </div>
+      <div class="info-item">
+        <span class="etiqueta">Estado:</span>
+        <span class="badge" [ngClass]="'estado-' + pedido.estado.toLowerCase().replace(' ', '-')">
+          {{ pedido.estado }}
+        </span>
+      </div>
+      <div class="info-item">
+        <span class="etiqueta">Fecha:</span>
+        <span class="valor">{{ pedido.fechaCreacion | fechaFirebase | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="info-item" *ngIf="pedido.notas">
+        <span class="etiqueta">Notas:</span>
+        <span class="valor">{{ pedido.notas }}</span>
+      </div>
+    </div>
+
+    <div class="tarjeta-articulos">
+      <h2>Artículos del Pedido</h2>
+      <div class="lista-articulos">
+        <div *ngFor="let articulo of pedido.articulos" class="articulo-detalle">
+          <div class="articulo-imagen">🍽️</div>
+          <div class="articulo-info">
+            <h3>{{ articulo.platoNombre }}</h3>
+            <p class="cantidad">Cantidad: {{ articulo.cantidad }}</p>
+            <p class="precio-unitario">{{ articulo.precioUnitario | moneda }} c/u</p>
+            <p class="notas-articulo" *ngIf="articulo.notas">📝 {{ articulo.notas }}</p>
+          </div>
+          <div class="articulo-subtotal">
+            {{ articulo.subtotal | moneda }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="total-pedido">
+        <span>Total:</span>
+        <span class="monto-total">{{ pedido.total | moneda }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="acciones" *ngIf="obtenerSiguienteEstado()">
+    <button class="boton-cambiar-estado" (click)="cambiarEstado(obtenerSiguienteEstado()!)">
+      Cambiar a: {{ obtenerSiguienteEstado() }}
+    </button>
+  </div>
+</div>
+
+<div class="loading" *ngIf="cargando">
+  <div class="spinner"></div>
+  <p>Cargando pedido...</p>
+</div>

@@ -1,99 +1,69 @@
 <div class="contenedor-registro">
+  <!-- Fondo con imagen -->
   <div class="fondo-imagen"></div>
-  
+
   <div class="tarjeta-registro">
     <div class="encabezado-registro">
-      <div class="icono-contenedor">
-        <img src="/logo/logo.png" alt="Logo" class="logo-circular">
-      </div>
-      <h1>Crear Cuenta</h1>
-      <p>Completa tus datos para registrarte</p>
+      <h1>📝 Crear Cuenta</h1>
+      <p>Completa tus datos</p>
     </div>
 
     <form [formGroup]="formularioRegistro" (ngSubmit)="onSubmit()">
       
       <div class="campo-formulario">
         <label for="nombre">Nombre completo</label>
-        <div class="input-wrapper">
-          <input 
-            type="text" 
-            id="nombre" 
-            formControlName="nombre"
-            placeholder="Juan Pérez"
-            [class.input-error]="nombre?.invalid && nombre?.touched"
-            [class.input-success]="nombre?.valid && nombre?.touched"
-          />
-          <span class="input-icono" *ngIf="nombre?.valid && nombre?.touched">✓</span>
-        </div>
+        <input 
+          type="text" 
+          id="nombre" 
+          formControlName="nombre"
+          placeholder="Juan Pérez"
+          [class.input-error]="nombre?.invalid && nombre?.touched"
+        />
         <div class="mensaje-error" *ngIf="nombre?.invalid && nombre?.touched">
-          <small *ngIf="nombre?.errors?.['required']">
-            El nombre es obligatorio
-          </small>
-          <small *ngIf="nombre?.errors?.['minlength']">
-            Debe tener al menos 3 caracteres
-          </small>
+          <small *ngIf="nombre?.errors?.['required']">El nombre es obligatorio</small>
+          <small *ngIf="nombre?.errors?.['minlength']">Mínimo 3 caracteres</small>
         </div>
       </div>
 
       <div class="campo-formulario">
         <label for="email">Correo electrónico</label>
-        <div class="input-wrapper">
-          <input 
-            type="email" 
-            id="email" 
-            formControlName="email"
-            placeholder="ejemplo@correo.com"
-            [class.input-error]="email?.invalid && email?.touched"
-            [class.input-success]="email?.valid && email?.touched"
-          />
-          <span class="input-icono" *ngIf="email?.valid && email?.touched">✓</span>
-        </div>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          placeholder="ejemplo@correo.com"
+          [class.input-error]="email?.invalid && email?.touched"
+        />
         <div class="mensaje-error" *ngIf="email?.invalid && email?.touched">
-          <small *ngIf="email?.errors?.['required']">
-            El correo es obligatorio
-          </small>
-          <small *ngIf="email?.errors?.['email']">
-            Ingresa un correo válido
-          </small>
+          <small *ngIf="email?.errors?.['required']">El correo es obligatorio</small>
+          <small *ngIf="email?.errors?.['email']">Correo inválido</small>
         </div>
       </div>
 
       <div class="campo-formulario">
         <label for="password">Contraseña</label>
-        <div class="input-wrapper">
-          <input 
-            type="password" 
-            id="password" 
-            formControlName="password"
-            placeholder="••••••••"
-            [class.input-error]="password?.invalid && password?.touched"
-            [class.input-success]="password?.valid && password?.touched"
-          />
-          <span class="input-icono" *ngIf="password?.valid && password?.touched">✓</span>
-        </div>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          placeholder="••••••••"
+          [class.input-error]="password?.invalid && password?.touched"
+        />
         <div class="mensaje-error" *ngIf="password?.invalid && password?.touched">
-          <small *ngIf="password?.errors?.['required']">
-            La contraseña es obligatoria
-          </small>
-          <small *ngIf="password?.errors?.['minlength']">
-            Debe tener al menos 6 caracteres
-          </small>
+          <small *ngIf="password?.errors?.['required']">La contraseña es obligatoria</small>
+          <small *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres</small>
         </div>
       </div>
 
       <div class="campo-formulario">
         <label for="confirmarPassword">Confirmar contraseña</label>
-        <div class="input-wrapper">
-          <input 
-            type="password" 
-            id="confirmarPassword" 
-            formControlName="confirmarPassword"
-            placeholder="••••••••"
-            [class.input-error]="confirmarPassword?.invalid && confirmarPassword?.touched"
-            [class.input-success]="confirmarPassword?.valid && confirmarPassword?.touched && !formularioRegistro.errors?.['passwordsNoCoinciden']"
-          />
-          <span class="input-icono" *ngIf="confirmarPassword?.valid && confirmarPassword?.touched && !formularioRegistro.errors?.['passwordsNoCoinciden']">✓</span>
-        </div>
+        <input 
+          type="password" 
+          id="confirmarPassword" 
+          formControlName="confirmarPassword"
+          placeholder="••••••••"
+          [class.input-error]="confirmarPassword?.invalid && confirmarPassword?.touched"
+        />
         <div class="mensaje-error" *ngIf="formularioRegistro.errors?.['passwordsNoCoinciden'] && confirmarPassword?.touched">
           <small>Las contraseñas no coinciden</small>
         </div>
@@ -107,41 +77,16 @@
         </select>
       </div>
 
-      <div class="alerta-error animate-shake" *ngIf="mensajeError">
-        {{ mensajeError }}
-      </div>
+      <div class="alerta-error" *ngIf="mensajeError">{{ mensajeError }}</div>
+      <div class="alerta-exito" *ngIf="mensajeExito">{{ mensajeExito }}</div>
 
-      <div class="alerta-exito animate-slide" *ngIf="mensajeExito">
-        {{ mensajeExito }}
-      </div>
-
-      <button 
-        type="submit" 
-        class="boton-principal"
-        [disabled]="cargando || formularioRegistro.invalid"
-      >
-        <span class="boton-contenido" *ngIf="!cargando">
-          <span class="boton-texto">Registrarse</span>
-          <span class="boton-icono">→</span>
-        </span>
-        <span class="boton-contenido" *ngIf="cargando">
-          <span class="spinner"></span>
-          <span class="boton-texto">Creando cuenta...</span>
-        </span>
+      <button type="submit" class="boton-principal" [disabled]="cargando">
+        <span *ngIf="!cargando">Registrarse</span>
+        <span *ngIf="cargando">Creando cuenta...</span>
       </button>
 
-      <div class="separador">
-        <span>o</span>
-      </div>
-
       <div class="link-login">
-        <p>
-          ¿Ya tienes cuenta? 
-          <a routerLink="/login" class="link-animado">
-            Inicia sesión aquí
-            <span class="link-flecha">→</span>
-          </a>
-        </p>
+        <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
       </div>
     </form>
   </div>

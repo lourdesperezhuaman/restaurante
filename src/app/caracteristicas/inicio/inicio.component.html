@@ -1,42 +1,26 @@
 <div class="tarjeta-bienvenida">
-  <h2>{{ titulo }}</h2>
-  <p>{{ descripcion }}</p>
+  <div class="encabezado-bienvenida">
+    <h2>{{ titulo }}</h2>
+    <p>{{ descripcion }}</p>
+  </div>
   
   <div class="estadisticas">
     <a routerLink="/pedidos" class="stat">
-      <h3>📋</h3>
-      <p>Gestión de Pedidos</p>
-      <small>Crea y gestiona pedidos</small>
+      <div class="icono">📋</div>
+      <h3>Pedidos</h3>
+      <p>Gestiona los pedidos</p>
     </a>
     
     <a routerLink="/platos" class="stat">
-      <h3>🍕</h3>
-      <p>Menú de Platos</p>
-      <small>Administra el menú</small>
+      <div class="icono">🍕</div>
+      <h3>Platos</h3>
+      <p>Administra el menú</p>
     </a>
     
     <a routerLink="/tablero" class="stat" *ngIf="esAdmin">
-      <h3>📊</h3>
-      <p>Estadísticas</p>
-      <small>Ver dashboard</small>
+      <div class="icono">📊</div>
+      <h3>Dashboard</h3>
+      <p>Ver estadísticas</p>
     </a>
-    
-    <div class="stat">
-      <h3>✅</h3>
-      <p>Sistema Completo</p>
-      <small>Angular 18 + Firebase</small>
-    </div>
-  </div>
-
-  <div class="informacion-sistema">
-    <h3>🎯 Características del Sistema</h3>
-    <ul>
-      <li>✅ Autenticación con roles (Mesero/Administrador)</li>
-      <li>✅ CRUD completo de Platos y Pedidos</li>
-      <li>✅ Gestión de estados en tiempo real</li>
-      <li>✅ Dashboard con estadísticas de ventas</li>
-      <li>✅ Filtros y búsqueda en tiempo real</li>
-      <li>✅ Diseño responsive</li>
-    </ul>
   </div>
 </div>
