@@ -2,6 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .contenido {
@@ -9,6 +10,7 @@
   padding: 2rem;
   background-color: #f5f5f5;
   min-height: calc(100vh - 120px);
+  box-sizing: border-box;
 }
 
 .pie-pagina {
@@ -17,9 +19,76 @@
   text-align: center;
   padding: 1rem;
   margin-top: auto;
+  box-sizing: border-box;
 }
 
 .pie-pagina p {
   margin: 0;
   font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .contenido {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenido {
+    padding: 1.25rem;
+    min-height: calc(100vh - 110px);
+  }
+
+  .pie-pagina {
+    padding: 0.875rem;
+  }
+
+  .pie-pagina p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contenido {
+    padding: 1rem;
+    min-height: calc(100vh - 100px);
+  }
+
+  .pie-pagina {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .pie-pagina p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .contenido {
+    padding: 0.75rem;
+  }
+
+  .pie-pagina {
+    padding: 0.65rem 0.5rem;
+  }
+
+  .pie-pagina p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .contenido {
+    padding: 1rem;
+    min-height: calc(100vh - 90px);
+  }
+
+  .pie-pagina {
+    padding: 0.65rem;
+  }
+
+  .pie-pagina p {
+    font-size: 0.8rem;
+  }
 }

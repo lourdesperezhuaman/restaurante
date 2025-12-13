@@ -8,6 +8,7 @@
   top: 0;
   left: 0;
   overflow: hidden;
+  padding: 1rem;
 }
 
 .fondo-imagen {
@@ -36,7 +37,7 @@
 
 .tarjeta-login {
   background: rgba(255, 255, 255, 0.15);
-  padding: 3rem;
+  padding: 2.5rem 2rem;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
@@ -61,7 +62,7 @@
 
 .encabezado-login {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .icono-contenedor {
@@ -70,8 +71,8 @@
 }
 
 .logo-circular {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -90,7 +91,7 @@
 .encabezado-login h1 {
   margin: 0 0 0.5rem 0;
   color: #ffffff;
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -99,13 +100,13 @@
 .encabezado-login p {
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 400;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .campo-formulario {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .campo-formulario label {
@@ -113,7 +114,7 @@
   margin-bottom: 0.5rem;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
@@ -122,7 +123,7 @@
 }
 
 .campo-formulario input {
-  width: 92.5%;
+  width: 100%;
   padding: 0.875rem 1rem;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
@@ -131,6 +132,7 @@
   background-color: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
 }
 
 .campo-formulario input::placeholder {
@@ -197,7 +199,7 @@
 
 .mensaje-error small {
   color: #ff6b6b;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   display: block;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   font-weight: 500;
@@ -214,6 +216,7 @@
   font-weight: 600;
   backdrop-filter: blur(10px);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 0.9rem;
 }
 
 .animate-shake {
@@ -240,6 +243,8 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .boton-principal::before {
@@ -307,7 +312,7 @@
   text-align: center;
   margin: 1.5rem 0;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .separador::before,
@@ -330,7 +335,7 @@
 .link-registro p {
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
@@ -344,6 +349,11 @@
   transition: all 0.3s ease;
   position: relative;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0.25rem;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .link-animado::after {
@@ -375,9 +385,11 @@
   transform: translateX(5px);
 }
 
-@media (max-width: 480px) {
+/* Tablets */
+@media (max-width: 768px) {
   .tarjeta-login {
     padding: 2rem 1.5rem;
+    max-width: 450px;
   }
 
   .encabezado-login h1 {
@@ -387,5 +399,136 @@
   .logo-circular {
     width: 80px;
     height: 80px;
+  }
+}
+
+/* Móviles grandes */
+@media (max-width: 480px) {
+  .contenedor-login {
+    padding: 0.75rem;
+  }
+
+  .tarjeta-login {
+    padding: 1.75rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .encabezado-login {
+    margin-bottom: 1.5rem;
+  }
+
+  .encabezado-login h1 {
+    font-size: 1.5rem;
+  }
+
+  .encabezado-login p {
+    font-size: 0.85rem;
+  }
+
+  .logo-circular {
+    width: 70px;
+    height: 70px;
+  }
+
+  .campo-formulario {
+    margin-bottom: 1rem;
+  }
+
+  .campo-formulario label {
+    font-size: 0.85rem;
+  }
+
+  .campo-formulario input {
+    padding: 0.75rem 0.875rem;
+    font-size: 16px; /* Evita el zoom automático en iOS */
+  }
+
+  .boton-principal {
+    padding: 0.875rem;
+    font-size: 0.95rem;
+  }
+
+  .alerta-error {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.85rem;
+  }
+
+  .separador {
+    font-size: 0.8rem;
+  }
+
+  .link-registro p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 360px) {
+  .contenedor-login {
+    padding: 0.5rem;
+  }
+
+  .tarjeta-login {
+    padding: 1.5rem 1rem;
+    border-radius: 14px;
+  }
+
+  .encabezado-login h1 {
+    font-size: 1.35rem;
+  }
+
+  .encabezado-login p {
+    font-size: 0.8rem;
+  }
+
+  .logo-circular {
+    width: 60px;
+    height: 60px;
+  }
+
+  .campo-formulario input {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .boton-principal {
+    padding: 0.8rem;
+  }
+}
+
+/* Orientación horizontal en móviles */
+@media (max-height: 600px) and (orientation: landscape) {
+  .contenedor-login {
+    padding: 0.5rem;
+  }
+
+  .tarjeta-login {
+    padding: 1rem 1.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .encabezado-login {
+    margin-bottom: 0.75rem;
+  }
+
+  .icono-contenedor {
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-circular {
+    width: 50px;
+    height: 50px;
+  }
+
+  .encabezado-login h1 {
+    font-size: 1.25rem;
+  }
+
+  .campo-formulario {
+    margin-bottom: 0.75rem;
+  }
+
+  .link-registro {
+    margin-top: 1rem;
   }
 }

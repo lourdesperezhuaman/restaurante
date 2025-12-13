@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class MonedaPipe implements PipeTransform {
-  /**
+  /**funciones especiales que transforman datos directamente en las plantillas HTML
    * Transforma un número a formato de moneda
    * Ejemplo: 15.50 → S/ 15.50
    */
